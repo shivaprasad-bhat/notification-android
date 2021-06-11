@@ -50,6 +50,7 @@ class MainActivity : AppCompatActivity() {
      * Set - {name, descriptionText, importance}
      */
     private fun createNotificationChannel() {
+        Timber.d("Creating Notification Channel")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = CHANNEL_NAME
             val descriptionText = CHANNEL_DESCRIPTION
@@ -60,7 +61,9 @@ class MainActivity : AppCompatActivity() {
             val notificationManager: NotificationManager? =
                 getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager?
             notificationManager?.createNotificationChannel(channel)
+            Timber.d("Notification channel created..")
         }
+
     }
 
     /**
@@ -69,6 +72,7 @@ class MainActivity : AppCompatActivity() {
      *
      */
     private fun sendNotification() {
+        Timber.d("Sending notification..")
         val intent = Intent(this, LandingActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
@@ -92,6 +96,7 @@ class MainActivity : AppCompatActivity() {
 
         with(NotificationManagerCompat.from(this)) {
             notify(NOTIFICATION_ID, builder.build())
+            Timber.d("Notified..")
         }
     }
 }
