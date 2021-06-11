@@ -17,13 +17,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.svbneelmane.learn.notify.databinding.ActivityMainBinding
+import com.svbneelmane.learn.notify.utils.Constants.Companion.CHANNEL_DESCRIPTION
+import com.svbneelmane.learn.notify.utils.Constants.Companion.CHANNEL_ID
+import com.svbneelmane.learn.notify.utils.Constants.Companion.CHANNEL_NAME
+import com.svbneelmane.learn.notify.utils.Constants.Companion.NOTIFICATION_DESCRIPTION
+import com.svbneelmane.learn.notify.utils.Constants.Companion.NOTIFICATION_ID
+import com.svbneelmane.learn.notify.utils.Constants.Companion.NOTIFICATION_TITLE
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
-
-    // Create a unique notification channel id and notification id
-    private val CHANNEL_ID = "chanel_sample_notification"
-    private val notificationId = 337192
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,20 +51,20 @@ class MainActivity : AppCompatActivity() {
      */
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = "Default Channel"
-            val descriptionText = "Default Notification Channel Created by Developer"
+            val name = CHANNEL_NAME
+            val descriptionText = CHANNEL_DESCRIPTION
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
                 description = descriptionText
             }
-            val notificationManager: NotificationManager =
-                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
+            val notificationManager: NotificationManager? =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager?
+            notificationManager?.createNotificationChannel(channel)
         }
     }
 
     /**
-     * Function that sends a notification to user on calle
+     * Function that sends a notification to user on called
      * @param {}
      *
      */
@@ -81,15 +83,15 @@ class MainActivity : AppCompatActivity() {
 
         val builder = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.mipmap.ic_shivaprasad)
-            .setContentTitle("Notification From App")
+            .setContentTitle(NOTIFICATION_TITLE)
             .setLargeIcon(bitmapLarge)
             .setStyle(NotificationCompat.BigPictureStyle().bigPicture(bitmapLarge))
-            .setContentText("You've got this notification to notify you about the notification")
+            .setContentText(NOTIFICATION_DESCRIPTION)
             .setContentIntent(pendingIntent)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
         with(NotificationManagerCompat.from(this)) {
-            notify(notificationId, builder.build())
+            notify(NOTIFICATION_ID, builder.build())
         }
     }
 }
